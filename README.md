@@ -1,2 +1,2 @@
-# Codigos-Em-C
-Acervo de exercícios e projetos em C
+Este repositório contém meus exercícios e programas em C. Tenho como objetivo registrar minha evolução na disciplina e compartilhar soluções dos exercícios propostos.
+
