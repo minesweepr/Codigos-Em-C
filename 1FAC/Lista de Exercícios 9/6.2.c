@@ -1,0 +1,30 @@
+/*Desenvolver uma função que, dado um número
+inteiro N, calcule o valor do seguinte
+somatório:*/
+#include<stdio.h>
+#include<math.h>
+float calculo (int n){
+	int i, j, div=1;
+	float parte1, soma=1;
+	for(i=1;i<n;i++){
+		for(j=1;j<=i;j++){
+			div*=j;
+		}
+		parte1=pow(n-i,i)/div;
+	    soma+=parte1;
+	}
+	//quando nao pede pra exibir, é pra exibir fora da função
+	return soma;
+}
+
+int main (){
+	int n;
+	float s;
+	printf("insira um numero N: ");
+	scanf("%d",&n);
+	
+	printf("teste %.1f",s=calculo(n));
+	
+	return 0;
+}
+//esse q ta certo
