@@ -2,3 +2,6 @@
 *.o
 *.out
 *.log
+*.win
+*.dev
+*.layout
