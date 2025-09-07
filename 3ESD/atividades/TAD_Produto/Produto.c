@@ -1,4 +1,5 @@
 #include "Produto.h"
+#define VAL 14 //definicao de quanto tempo ate produto X passar da validade
 
 struct produto{
 	char *identificacao;
@@ -63,12 +64,12 @@ void produto_exibe(Produto *p){
 	}
 }
 
-//funcao que recebe outro produto e retorna true se tem mesma identificação
+//funcao que recebe outro produto e retorna true se tem mesma identifica??o
 bool produto_ehSemelhante(Produto *p1, Produto *p2){
 	return (strcmp(p1->identificacao, p2->identificacao)==0)? true:false;
 }
 
-//reajuste: recebe um valor percentual(x) e atualiza o preço em x%
+//reajuste: recebe um valor percentual(x) e atualiza o pre?o em x%
 void produto_reajuste(Produto *p, float percentual){
 	p->preco*=(1+(percentual/100));
 }
@@ -160,7 +161,7 @@ char *produto_getProdutos(Produto *p){
 	return str;
 }
 
-//funcao para saber se dois produtos são iguais: mesmos atributos
+//funcao para saber se dois produtos s?o iguais: mesmos atributos
 int produto_iguais(Produto* p1, Produto* p2) {
     return strcmp(p1->identificacao, p2->identificacao)==0 && strcmp(p1->codigoBarras, p2->codigoBarras)==0 && p1->preco==p2->preco && p1->qt==p2->qt;
 }
@@ -180,8 +181,9 @@ void produto_vencimento(int dia, int mes, int ano, Produto *p){
 	for(int i=0;i<p->qt;i++){
 		unidade_acessaData(p->unidades[i], &Udia, &Umes, &Uano);
 		tData *Udata=dta_cria(Udia, Umes, Uano);
+		Udata=dta_intervalo(Udata, VAL);
 		
-		if(!data_menorQue(Udata, alvo)){
+		if(data_menorQue(Udata, alvo)){
 			unidade_exibir(p->unidades[i]);
 			if(unidade_idadeData(p->unidades[i], alvo)>=3){
 				produto_reajuste(p, -25);
@@ -192,4 +194,3 @@ void produto_vencimento(int dia, int mes, int ano, Produto *p){
 	}
 	dta_libera(alvo);
 }
-

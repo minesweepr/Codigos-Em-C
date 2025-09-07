@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 // Representa??o do TAD: TData
 //-----------
@@ -32,7 +33,7 @@ tData* dta_exibe(tData* p1);
 /* Fun??o getData - Retorna uma string com os valores da data no formato dd/mm/aaaa*/
 char* dta_getData(tData* p);
 
-/* DIFERENÇA EM DIAS ENTRE DUAS DATAS*/
+/* DIFEREN?A EM DIAS ENTRE DUAS DATAS*/
 int dta_diferenca(tData* dt1, tData * dt2);
 
 //funcao que retorna true se dt1 menor que dt2, false caso contrario

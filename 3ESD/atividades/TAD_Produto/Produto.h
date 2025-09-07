@@ -16,10 +16,10 @@ void produto_libera(Produto *p);
 //funcao que exibe um produto
 void produto_exibe(Produto *p);
 
-//funcao que recebe outro produto e retorna true se tem mesma identificação
+//funcao que recebe outro produto e retorna true se tem mesma identifica??o
 bool produto_ehSemelhante(Produto *p1, Produto *p2);
 
-//reajuste: recebe um valor percentual(x) e atualiza o preço em x%
+//reajuste: recebe um valor percentual(x) e atualiza o pre?o em x%
 void produto_reajuste(Produto *p, float percentual);
 
 //funcao de acesso para cada atributo, o qual retorna valores de um produto
@@ -34,9 +34,9 @@ void produto_acessaQt(Produto *p, int *qt);
 
 //funcao que atribui novos valores para cada item em um produto
 //-->novo valor para a identificacao
-void produto_atribuiIdentificacao(Produto *p, char identificacao);
+void produto_atribuiIdentificacao(Produto *p, char *identificacao);
 //-->novo valor para o codigoBarras
-void produto_atribuiCodigoBarras(Produto *p, char codigoBarras);
+void produto_atribuiCodigoBarras(Produto *p, char *codigoBarras);
 //-->novo valor para o preco
 void produto_atribuiPreco(Produto *p, float preco);
 //-->novo valor para a qt
@@ -55,7 +55,7 @@ char *produto_getQt(Produto *p);
 //funcao retorna uma string com os valores
 char *produto_getProdutos(Produto *p);
 
-//funcao para saber se dois produtos são iguais: mesmos atributos
+//funcao para saber se dois produtos s?o iguais: mesmos atributos
 int produto_iguais(Produto* p1, Produto* p2);
 
 //para cada produto, quais as unidades vencem em uma determinada data perguntada ao usuario (data alvo)
