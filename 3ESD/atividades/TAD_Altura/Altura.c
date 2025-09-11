@@ -1,80 +1,75 @@
 #include "Altura.h"
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 
-
-/* TADS FONECIDOS PELA PROFESSORA */
-/* cria uma medida de comprimento como em m e cm*/
-struct alt {
-    int m,cm;
+struct alt{
+  int m;
+  int cm;
 };
-/* funções auxiliares */
-int converteParacm(Altura * p){
-    return p->m *100 + p->cm;
-}
-/* Funções exportadas */
-/* Função cria - Aloca e retorna uma altura (m e cm) */
-Altura* alt_cria(int m, int cm){
-    Altura* p = (Altura*) malloc(sizeof(Altura));
-   if (p == NULL) {
-      printf("Memória insuficiente!\n");
-      exit(1);
-   }
-   p->m = m;
-   p->cm = cm;
-   return p;
-}
-/* Função libera - Libera a memória de uma altura previamente criado */
-void alt_libera(Altura* p){
-    free(p);
+
+int converteParacm(Altura *a){
+    return (a->m*100)+a->cm;
 }
 
-/* Função acessa - Retorna os valores dde uma altura */
-void alt_acessa(Altura* p, int* m, int* cm){
-    *m = p->m;
-    *cm = p->cm;
-}
-/* Função atribui - Atribui novos valores às partes de uma altura */
-void alt_atribui(Altura* p, int m, int cm){
-      p->m = m;
-      p->cm = cm;
-
-}
-/* Função exibe -Escreve na tela oa altura  no formato  m,cm */
-
-void alt_exibe(Altura* p){
-    printf("\n %d,%02dm",p->m,p->cm);
+Altura *alt_cria(int m, int cm){
+    Altura *a=(Altura*)malloc(sizeof(Altura));
+    if(a==NULL){
+        printf("\nmemoria insuficiente");
+        exit(1);
+    }
+    a->m=m;
+    a->cm=cm;
+    return a;
 }
 
-/* Função getAltur- Retorna uma string com os valores dA ALTURA  no formato m,cm*/
-char* alt_getAltura(Altura* p){
-  char* pt;
-  int tam = sizeof(*p)+ 5;
-  pt = (char*)malloc(tam);
-  sprintf(pt,"%d,%02dm",p->m,p->cm);
-  return pt;
-
+void alt_libera(Altura *a){
+    free(a);
 }
 
-/*função compara negativo:se o al1 < alt2, 0 se alt1 == alt2, positivo se o alt1 > alt2  */
-int alt_compara(Altura *p1, Altura *p2){
-    int a1= converteParacm(p1);
-    int a2 = converteParacm(p2);
-    int dif = a1-a2;
-    return dif;
-    
-}
-/*CRIADOS POR MIM*/
-/*soma altura*/
-Altura *alt_soma(Altura *p1, int n){
-	int total=converteParacm(p1)+n;
-	int m=total/100;
-	int cm=total%100;
-	return alt_cria(m, cm);
-}
-/*copia altura*/
-Altura *alt_copia(Altura *p){
-	return alt_cria(p->m, p->cm);
+void alt_acessa(Altura *a, int *m, int *cm){
+    *m=a->m;
+    *cm=a->cm;
 }
 
+void alt_atribui(Altura *a, int m, int cm){
+    a->m=m;
+    a->cm=cm;
+}
+
+void alt_exibe(Altura *a){
+    printf("\n%d,%dm", a->m, a->cm);
+}
+
+char *alt_getAltura(Altura *a){
+    int tam=snprintf(NULL, 0, "%d,%dm", a->m, a->cm)+1;
+    char *str=(char*)malloc(tam*sizeof(char));
+    sprintf(str, "%d,%dm", a->m, a->cm);
+    return str;
+}
+
+int alt_compara(Altura *a1, Altura *a2){
+    int a1_cm=converteParacm(a1);
+    int a2_cm=converteParacm(a2);
+    return a1_cm-a2_cm;
+}
+
+Altura *alt_diferenca(Altura *a1, Altura *a2){
+    int dif=abs(alt_compara(a1, a2));
+    int d_m=dif/100;
+    int d_cm=dif%100;
+    Altura *d=alt_cria(d_m, d_cm);
+    return d;
+}
+
+Altura *alt_soma(Altura *a, int cm){
+    int soma=converteParacm(a)+cm;
+    int s_m=soma/100;
+    int s_cm=soma%100;
+    Altura *s=alt_cria(s_m, s_cm);
+    return s;
+}
+
+Altura *alt_copia (Altura *a){
+    return alt_cria(a->m, a->cm);
+}
