@@ -23,6 +23,7 @@ int main()
     
     alt_libera(a1);
     alt_libera(a2);
+    alt_libera(dif);
     alt_libera(soma);
     alt_libera(copia);
     return 0;
