@@ -1,89 +1,120 @@
 #include "Altura.h"
 #include "Peso.h"
 #include "Pessoa.h"
-#include <stdlib.h>
 #include <stdio.h>
-#include <math.h>
 #include <string.h>
-/* cria informacoes pessoa*/
-struct pssoa  {
+#include <stdlib.h>
+#include <math.h>
+
+struct pessoa{
     char *nome;
-    Peso *peso;
     Altura *altura;
+    Peso *peso;
 };
 
-//soma ou subtrai o peso atual da pessoa
-void pessoa_alteraPeso(Pessoa *p, int g){
-    Peso *aux=p->peso;
-    p->peso=peso_soma(p->peso, g);
-    free(aux);
-}
-
-//soma a altura atual da pessoa
-void pessoa_alteraAltura(Pessoa *p, int cm){
-    Altura *aux=p->altura;
-    p->altura=alt_soma(p->altura, cm);
-    free(aux);
-} 
-
-//calcula imc da pessoa
-char *pessoa_IMC(Pessoa *p){
-    float kg=converteParag(p->peso)/(float)100, m=converteParacm(p->altura)/(float)100;
-    float imc=(kg/pow(m, 2));//testar
-    char *resultado;
-    if(imc<18.5){
-        resultado=(char*)malloc(15*sizeof(char));
-        strcpy(resultado, "abaixo do peso");
-    }else if(imc<25){
-        resultado=(char*)malloc(7*sizeof(char));
-        strcpy(resultado, "normal");
-    }else if(imc<30){
-        resultado=(char*)malloc(10*sizeof(char));
-        strcpy(resultado, "sobrepeso");
-    }else{
-        resultado=(char*)malloc(10*sizeof(char));
-        strcpy(resultado, "obesidade");
+Pessoa *pessoa_cria(char *nome, int m, int cm, int kg, int g){
+    Pessoa *p=(Pessoa*)malloc(sizeof(Pessoa));
+    if(p==NULL){
+        printf("\nmemoria insuficiente");
+        exit(1);
     }
-    return resultado;
+    
+    p->nome=(char*)malloc(strlen(nome)+1*sizeof(char));
+    strcpy(p->nome, nome);
+    p->altura=alt_cria(m, cm);
+    p->peso=peso_cria(kg, g);
+    return p;
 }
-/* funcoes auxiliares */
-/* funcao cria - Aloca e retorna uma pessoa (kg e g) */
-Pessoa* pessoa_cria(int kg, int g, int m, int cm, char *nm){
-    Pessoa* p = (Pessoa*) malloc(sizeof(Pessoa));
-   if (p == NULL) {
-      printf("memoria insuficiente!\n");
-      exit(1);
-   }
-   
-   p->altura=alt_cria(m, cm);
-   p->peso=peso_cria(kg, g);
-   p->nome=(char*)malloc((strlen(nm)+1)*sizeof(char));
-   strcpy(p->nome,nm);
-   return p;
-}
-/* funcaolibera - Libera a memoria de uma pessoa previamente criado */
-void pessoa_libera(Pessoa* p){
+
+void pessoa_libera(Pessoa *p){
     free(p->nome);
     peso_libera(p->peso);
     alt_libera(p->altura);
     free(p);
 }
 
-//funcao acessa, retorna o nome de uma pessoa
-void pessoa_acessa(Pessoa *p, char *nm){
-    strcpy(nm, p->nome);//ver isso
+void pessoa_acessaNome(Pessoa *p, char *nome){
+    nome=(char*)malloc(strlen(p->nome)+1*sizeof(char));
+    strcpy(nome, p->nome);
 }
 
-//funcao atribui, atribui um novo nome para uma pessoa
-void pessoa_atribui(Pessoa *p, char *nm){
+void pessoa_acessaAltura(Pessoa *p, int *m, int *cm){
+    alt_acessa(p->altura, m, cm);
+}
+
+void pessoa_acessaPeso(Pessoa *p, int *kg, int *g){
+    peso_acessa(p->peso, kg, g);
+}
+
+void pessoa_atribuiNome(Pessoa *p, char *nome){
     free(p->nome);
-    p->nome=(char*)malloc((strlen(nm)+1)*sizeof(char));
-    strcpy(p->nome, nm);
+    p->nome=(char*)malloc(strlen(nome)*sizeof(char)+1);
+    strcpy(p->nome, nome);
 }
 
-/* funcaoexibe -Escreve na tela as informacoes da pessoa */
-void pessoa_exibe(Pessoa* p){
-    printf("\nnome: %s",p->nome);
-    peso_exibe(p->peso);
+void pessoa_atribuiAlt(Pessoa *p, int m, int cm){
+    alt_atribui(p->altura, m, cm);
+}
+
+void pessoa_atribuiPeso(Pessoa *p, int kg, int g){
+    peso_atribui(p->peso, kg, g);
+}
+
+void pessoa_exibe(Pessoa *p){
+    printf("\nnome: %s", p->nome);
     alt_exibe(p->altura);
+    peso_exibe(p->peso);
+}
+
+char *pessoa_getNome(Pessoa *p){
+    int tam=snprintf(NULL, 0, "nome: %s", p->nome)+1;
+    char *str=(char*)malloc(tam*sizeof(char));
+    sprintf(str,"nome: %s", p->nome);
+    return str;
+}
+
+char *pessoa_getAltura(Pessoa *p){
+    return alt_getAltura(p->altura);
+}
+
+char *pessoa_getPeso(Pessoa *p){
+    return peso_getPeso(p->peso);
+}
+
+void pessoa_alteraPeso(Pessoa *p, int g){
+    peso_alteraPeso(p->peso, g);
+}
+
+void pessoa_alteraAltura(Pessoa *p, int cm){
+    alt_alteraAltura(p->altura, cm);
+}
+
+float pessoa_IMC(Pessoa *p){
+    int kg, g;
+    pessoa_acessaPeso(p, &kg, &g);
+    float peso=kg+g/(float)1000;
+    
+    int m, cm;
+    pessoa_acessaAltura(p, &m, &cm);
+    float altura=m+cm/(float)100;
+    return peso/pow(altura, 2);
+}
+
+char *pessoa_categorizaIMC(Pessoa *p){
+    float imc=pessoa_IMC(p);
+    char *str;
+    if(imc>=30){
+        str=(char*)malloc(10*sizeof(char));
+        strcpy(str, "obesidade");
+    }else if(imc>=25){
+        str=(char*)malloc(10*sizeof(char));
+        strcpy(str, "sobrepeso");
+    }else if(imc>=18.5){
+        str=(char*)malloc(7*sizeof(char));
+        strcpy(str, "normal");
+    }else{
+        str=(char*)malloc(15*sizeof(char));
+        strcpy(str, "abaixo do peso");
+    }
+    return str;
 }

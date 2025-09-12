@@ -1,27 +1,38 @@
-/* cria informacoes pessoa*/
-typedef struct pssoa Pessoa;
+/* Tipo exportado */
+/* cria uma medida de comprimento como em kg e g*/
+typedef struct pessoa Pessoa;
 
-//soma ou subtrai o peso atual da pessoa
+/* Funções exportadas */
+/* Função cria - Aloca e retorna uma altura (m e cm) */
+Pessoa *pessoa_cria(char *nome, int m, int cm, int kg, int g);
+
+/* Função libera - Libera a memória de um peso previamente criado */
+void pessoa_libera(Pessoa *p);
+
+/* Função acessa - Retorna os valores dde uma pessoa */
+void pessoa_acessaNome(Pessoa *p, char *nome);
+void pessoa_acessaAltura(Pessoa *p, int *m, int *cm);
+void pessoa_acessaPeso(Pessoa *p, int *kg, int *g);
+
+/* Função atribui - Atribui novos valores às partes de um peso */
+void pessoa_atribuiNome(Pessoa *p, char *nome);
+void pessoa_atribuiAlt(Pessoa *p, int m, int cm);
+void pessoa_atribuiPeso(Pessoa *p, int kg, int g);
+
+/* Função exibe -Escreve na tela oa altura  no formato */
+void pessoa_exibe(Pessoa *p);
+
+/* Função getAltur- Retorna uma string com os valores dA ALTURA  no formato m,cm*/
+char *pessoa_getNome(Pessoa *p);
+char *pessoa_getAltura(Pessoa *p);
+char *pessoa_getPeso(Pessoa *p);
+
+// aumenta ou diminui o peso em g OU altura em cm
 void pessoa_alteraPeso(Pessoa *p, int g);
-
-//soma ou subtrai a altura atual da pessoa
 void pessoa_alteraAltura(Pessoa *p, int cm);
 
-//calcula imc da pessoa
-char *pessoa_IMC(Pessoa *p);
+//calcula e retorna IMC
+float pessoa_IMC(Pessoa *p);
 
-/* funcoes auxiliares */
-/* funcao cria - Aloca e retorna uma pessoa (kg e g) */
-Pessoa* pessoa_cria(int kg, int g, int m, int cm, char *nm);
-
-/* funcaolibera - Libera a memoria de uma pessoa previamente criado */
-void pessoa_libera(Pessoa* p);
-
-//funcao acessa, retorna o nome de uma pessoa
-void pessoa_acessa(Pessoa *p, char *nm);
-
-//funcao atribui, atribui um novo nome para uma pessoa
-void pessoa_atribui(Pessoa *p, char *nm);
-
-/* funcaoexibe -Escreve na tela as informacoes da pessoa */
-void pessoa_exibe(Pessoa* p);
+//categoriza IMC ( abaixo do peso, normal, sobrepeso, obesidade)
+char *pessoa_categorizaIMC(Pessoa *p);
